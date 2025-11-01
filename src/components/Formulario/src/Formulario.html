@@ -49,9 +49,17 @@
         </div>
         </div>
 
-        <button type="button" class="btn btn-outline-secondary btn-sm" @click="limpiarFormulario">
-        Limpiar
-        </button>
+        <!-- Botones -->
+        <div class="d-flex">
+            <button type="button" class="btn btn-primary btn-sm mr-2"
+                    :disabled="!formValido"
+                    @click="agregarRegistro">
+                Guardar
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" @click="limpiarFormularioYRegistros">
+                Limpiar
+            </button>
+        </div>
     </form>
 
     <!-- Tabla reactiva: se muestra SOLO cuando el form es válido -->
@@ -64,16 +72,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-if="formValido">
-            <td>{{ String(formData.nombre).trim() }}</td>
-            <td>{{ numeroEdad }}</td>
-            <td>{{ String(formData.email).trim() }}</td>
-        </tr>
-        <tr v-else>
-            <td colspan="3" class="text-center text-muted">
-            Complete los campos con datos válidos para verlos aquí.
-            </td>
-        </tr>
+            <tr v-for="r in registros" :key="r.email">
+            <td>{{ r.nombre }}</td>
+            <td>{{ r.edad }}</td>
+            <td>{{ r.email }}</td>
+            </tr>
+            <tr v-if="registros.length === 0">
+                <td colspan="4" class="text-center text-muted">Sin registros aún</td>
+            </tr>
         </tbody>
     </table>
 </div>

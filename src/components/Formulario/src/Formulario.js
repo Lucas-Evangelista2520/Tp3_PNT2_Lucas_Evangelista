@@ -3,8 +3,9 @@ export default {
 
     data() {
         return {
-            formData: this.getInicialData(),   // { nombre:null, edad:null, email:null }
-            formDirty: this.getInicialData()   // null=intacto, true=tocado
+            formData: this.getInicialData(),   
+            formDirty: this.getInicialData(),
+            registros: []  
         };
     },
 
@@ -59,6 +60,24 @@ export default {
         limpiarFormulario() {
             this.formData  = this.getInicialData();
             this.formDirty = this.getInicialData();
+        },
+        limpiarFormularioYRegistros() {
+            this.limpiarFormulario();
+            this.registros = [];
+        },
+
+        agregarRegistro() {
+        // defensa final
+        if (!this.formValido) {
+            this.formDirty = { nombre: true, edad: true, email: true };
+            return;
+        }
+        this.registros.unshift({
+            nombre: String(this.formData.nombre).trim(),
+            edad: this.numeroEdad,
+            email: String(this.formData.email).trim(),
+        });
+        this.limpiarFormulario();
         }
     }
 };
